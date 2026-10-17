@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Business Performance & Revenue Analytics</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="title">
+          <h1>Business Performance &amp; Revenue Analytics</h1>
+          <p>
+            Track your leads, conversions, quotations, deals, revenue and
+            operations in real time.
+          </p>
+        </div>
+        <div class="controls">
+          <select id="period" aria-label="Date range">
+            <option value="today">Today</option>
+            <option value="7">Last 7 Days</option>
+            <option value="30" selected>Last 30 Days</option>
+            <option value="custom">Custom Range</option>
+          </select>
+          <div id="customDates" class="datecustom">
+            <input type="date" id="startDate" /><span>–</span
+            ><input type="date" id="endDate" />
+          </div>
+          <select id="userFilter">
+            <option value="all">All Users</option>
+            <option>Nancy Singh</option>
+            <option>Sneha Choudhary</option>
+            <option>Tannu Kumari</option>
+            <option>Gaurav Pant</option></select
+          ><select id="deptFilter">
+            <option value="all">All Departments</option>
+            <option value="Sales">Sales</option>
+            <option value="Operations">Operations</option></select
+          ><button class="primary" id="exportBtn">⇩ Export CSV</button>
+        </div>
+      </header>
+      <div class="grid kpis" id="kpis"></div>
+      <div class="section-title"><span>◉</span> Lead Analytics</div>
+      <div class="grid lead-grid">
+        <section class="card">
+          <h3>Target Achievement</h3>
+          <div class="target">
+            <span>Monthly Revenue Target</span><span>Target vs Achieved</span>
+          </div>
+          <div class="target-value" id="targetValue">₹8,50,000</div>
+          <div class="target-row">
+            <span>🟢 Achieved <b id="achieved">₹1,82,627</b></span
+            ><b id="targetPct">21.5%</b>
+          </div>
+          <div class="target-row">
+            <span>Remaining</span><b id="remaining">₹6,67,373</b>
+          </div>
+          <div class="progress"><i id="targetBar" style="width: 21%"></i></div>
+        </section>
+        <section class="card">
+          <h3>Lead Funnel</h3>
+          <div class="funnel" id="funnel"></div>
+          <div class="sub" style="text-align: center; margin-top: 9px">
+            Click a stage to inspect matching leads
+          </div>
+        </section>
+        <section class="card">
+          <h3>Daily Lead Trend</h3>
+          <div class="legend">
+            <span
+              ><i class="dot" style="background: var(--blue)"></i>New
+              Leads</span
+            ><span
+              ><i class="dot" style="background: var(--green)"></i
+              >Qualified</span
+            ><span
+              ><i class="dot" style="background: var(--orange)"></i
+              >Converted</span
+            >
+          </div>
+          <div class="chart"><canvas id="leadChart"></canvas></div>
+        </section>
+        <section class="card">
+          <h3>Lead Sources</h3>
+          <div class="source-layout">
+            <div class="donut" id="sourceDonut">
+              <div class="donut-center">
+                <span id="sourceTotal">91</span><small>LEADS</small>
+              </div>
+            </div>
+            <div class="source-list" id="sourceList"></div>
+          </div>
+        </section>
+      </div>
+      <div class="section-title"><span>▤</span> Quotation Analytics</div>
+      <div class="grid quote-grid">
+        <section class="card">
+          <h3>Quotations by Service / Order Category</h3>
+          <div id="quotationBars" class="bars"></div>
+        </section>
+        <section class="card">
+          <h3>Quotation Value by Service</h3>
+          <div class="horizontal-list" id="quotationValues"></div>
+        </section>
+        <section class="card">
+          <h3>Service Wise Quotation Details</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Service / Order</th>
+                  <th class="num">Quotes</th>
+                  <th class="num">Quoted Amount</th>
+                  <th class="num">Accepted</th>
+                  <th class="num">Pending</th>
+                  <th class="num">Rejected</th>
+                  <th class="num">Conv. Rate</th>
+                </tr>
+              </thead>
+              <tbody id="serviceTable"></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="card">
+          <h3>Quote to Deal Conversion Rate</h3>
+          <div class="rate">
+            <div class="ring" id="quoteRing">
+              <strong id="quoteRate">21.5%</strong>
+            </div>
+          </div>
+          <div class="sub" style="text-align: center" id="quoteSummary">
+            23 Deals / 107 Quotations
+          </div>
+        </section>
+      </div>
+      <div class="section-title"><span>$</span> Deals &amp; Revenue</div>
+      <div class="grid revenue-grid">
+        <section class="card">
+          <h3>Deals Created vs Deal Revenue (by Service)</h3>
+          <div class="legend">
+            <span
+              ><i class="dot" style="background: var(--blue)"></i>Deals
+              Created</span
+            ><span
+              ><i class="dot" style="background: var(--orange)"></i>Deal
+              Revenue</span
+            >
+          </div>
+          <div id="dealsBars" class="bars"></div>
+        </section>
+        <section class="card">
+          <h3>Revenue by Order / Service Category</h3>
+          <div class="horizontal-list" id="revenueCategories"></div>
+        </section>
+        <section class="card">
+          <h3>Priority Breakdown</h3>
+          <div id="priorityTable"></div>
+        </section>
+        <section class="card">
+          <h3>Daily Revenue Trend</h3>
+          <div class="legend">
+            <span
+              ><i class="dot" style="background: var(--blue)"></i>Revenue</span
+            ><span
+              ><i class="dot" style="background: var(--green)"></i
+              >Collected</span
+            >
+          </div>
+          <div class="chart"><canvas id="revenueChart"></canvas></div>
+        </section>
+        <section class="card">
+          <h3>Total vs Collected Revenue</h3>
+          <div class="metric-box">
+            <small>♙ &nbsp;Total Deal Value</small
+            ><strong id="totalRevenue">₹1,82,627</strong>
+          </div>
+          <div class="metric-box greenbox">
+            <small>✓ &nbsp;Net Collected Revenue</small
+            ><strong id="collectedRevenue">₹1,20,698</strong>
+          </div>
+          <div class="metric-box" style="background: #fff5e6">
+            <small>◷ &nbsp;Outstanding Revenue</small
+            ><strong id="outstandingRevenue">₹61,929</strong>
+          </div>
+        </section>
+      </div>
+      <div class="section-title"><span>▣</span> Orders &amp; Payments</div>
+      <div class="grid ops-grid">
+        <section class="card">
+          <h3>Orders &amp; Stage Progress</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Order / Service</th>
+                  <th>Progress</th>
+                  <th class="num">Orders</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTable"></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="card">
+          <h3>Payment History</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Deal / Order</th>
+                  <th class="num">Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="paymentsTable"></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="card">
+          <h3>Collection Trends</h3>
+          <div class="chart"><canvas id="collectionChart"></canvas></div>
+          <div class="sub" id="collectionSummary"></div>
+        </section>
+        <section class="card">
+          <h3>Recent CRM Activity</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Employee</th>
+                  <th>Activity</th>
+                </tr>
+              </thead>
+              <tbody id="activityTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+      <p class="sub" style="text-align: center; margin: 20px 0 5px">
+        Demo dashboard · Sample data only · Use filters and click cards, charts
+        or table rows to drill down.
+      </p>
+    </div>
+    <div class="modal-backdrop" id="modalBackdrop">
+      <div class="modal">
+        <div class="modal-head">
+          <h2 id="modalTitle">Details</h2>
+          <button class="close" id="modalClose">✕ Close</button>
+        </div>
+        <div id="modalBody"></div>
+      </div>
+    </div>
+    <div class="toast" id="toast"></div>
+    <script src="script.js" defer></script>
+  </body>
+</html>
